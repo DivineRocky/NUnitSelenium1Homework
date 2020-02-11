@@ -8,56 +8,55 @@ namespace NUnitSelenium1Homework
 {
     public class Tests
     {
+        private IWebDriver _driver;
 
         [SetUp]
 
         public void Setup()
         {
-            
+            _driver = new ChromeDriver();            
+            _driver.Manage().Window.Maximize();
+            _driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 7);
+            _driver.Navigate().GoToUrl("https://www.wikipedia.org/");
         }
 
         [Test]
         public void WikipediaTestOne()
         {
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 7);
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://www.wikipedia.org/");
-            IWebElement webSiteTitle = driver.FindElement(By.XPath("//head/title"));
-            string webSiteTitleName = webSiteTitle.ToString();
+            IWebElement webSiteTitle = _driver.FindElement(By.CssSelector(".central-textlogo__image.svg-Wikipedia_wordmark"));
+            string webSiteTitleName = webSiteTitle.Text;
             int webSiteTitleLength = webSiteTitleName.Length;
-            Console.WriteLine(webSiteTitleName, webSiteTitleLength);
-            string currentURL = driver.Url;
+            Console.WriteLine($"Website Title name is {webSiteTitleName}, Title length is {webSiteTitleLength}");
+            string currentURL = _driver.Url;
             Assert.AreEqual("https://www.wikipedia.org/", currentURL);
-            string pageSource = driver.PageSource;
+            string pageSource = _driver.PageSource;
             int pageSourceLength = pageSource.Length;
             Console.WriteLine(pageSourceLength);
-            driver.Close();
         }
 
         [Test]
         public void WikipediaTestTwo()
         {
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 7);
-            driver.Manage().Window.Maximize();
-            driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
-            IWebElement helpLink = driver.FindElement(By.LinkText("Help"));
+            _driver.Navigate().GoToUrl("https://www.wikipedia.org/wiki/Main_Page");
+            IWebElement helpLink = _driver.FindElement(By.LinkText("Help"));
             helpLink.Click();
-            driver.Navigate().Back();
-            driver.Navigate().Forward();
-            driver.Navigate().Refresh();
-            driver.Close();
+            _driver.Navigate().Back();
+            _driver.Navigate().Forward();
+            _driver.Navigate().Refresh();
         }
 
         [Test]
         public void BrowserSizing()
         {
-            IWebDriver driver = new ChromeDriver();
-            driver.Manage().Window.Size = new Size(500, 600);
-            driver.Manage().Window.Position = new Point(200,150);
-            driver.Manage().Window.Maximize();
-            driver.Close();
+            _driver.Manage().Window.Size = new Size(500, 600);
+            _driver.Manage().Window.Position = new Point(200, 150);
+            _driver.Manage().Window.Maximize();
+        }
+
+        [TearDown]
+        public void CloseBrowser()
+        {
+            _driver.Close();
         }
     }
 }
