@@ -1,9 +1,15 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using WDSE;
+using WDSE.Decorators;
+using WDSE.Decorators.CuttingStrategies;
+using WDSE.ScreenshotMaker;
 
 namespace NUnitSelenium1Homework
 {
@@ -22,14 +28,14 @@ namespace NUnitSelenium1Homework
         }
 
         [Test]
-        public void WikipediaPicures()
+        public void WikipediaPictures()
         {
-            var images = _driver.FindElements(By.TagName("img"));
+            //var images = _driver.FindElements(By.TagName("img"));
 
+            var ele = By.TagName("img");
+            var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
+            string path = Directory.GetCurrentDirectory();
+            File.WriteAllBytes(path, arr);
         }
-
-
-       
     }
-
 }
