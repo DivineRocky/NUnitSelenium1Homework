@@ -13,7 +13,7 @@ using WDSE.ScreenshotMaker;
 
 namespace NUnitSelenium1Homework
 {
-    public class Tests2
+    public class WikipediaScreenshots
     {
         private IWebDriver _driver;
 
