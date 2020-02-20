@@ -22,7 +22,7 @@ namespace NUnitSelenium1Homework
         public void Setup()
         {
             _driver = new ChromeDriver();
-            _driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 5);
+            _driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 7);
             _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("https://en.wikipedia.org/wiki/Main_Page");
         }
@@ -30,30 +30,12 @@ namespace NUnitSelenium1Homework
         [Test]
         public void WikipediaPictures()
         {
-            var images = _driver.FindElements(By.TagName("img"));
-            for (int i = 1; i <= images.Count; i++)
-            {
-                if (images[i-1].Size.Width<100)
-                {
-                    continue;
-                }
+            //var images = _driver.FindElements(By.TagName("img"));
 
-                var ele = By.XPath($"(//img)[{i}]");
-                var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
-                File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\scr{i}.png", arr);
-            }            
+            var ele = By.TagName("img");
+            var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
+            string path = Directory.GetCurrentDirectory();
+            File.WriteAllBytes(path, arr);
         }
-
-        //[Test]
-        //public void WikipediaPicturesTest()
-        //{
-        //    var images = _driver.FindElements(By.XPath("//*[@class='image']"));
-        //    for (int i = 1; i <= images.Count; i++)
-        //    {
-        //        var ele = By.XPath("//*[@class='image']");
-        //        var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
-        //        File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\scr{i}.png", arr);
-        //    }
-        //}
     }
 }
