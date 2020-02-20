@@ -42,7 +42,6 @@ namespace NUnitSelenium1Homework
             {
                 string priceText = priceEl.Text.Replace(" ", "");
                 int convertedPriceEl = Int32.Parse(priceText);
-
                 Assert.GreaterOrEqual(convertedPriceEl, 10000);
             }
             
