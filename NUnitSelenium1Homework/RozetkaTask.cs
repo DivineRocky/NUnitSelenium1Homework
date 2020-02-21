@@ -30,22 +30,27 @@ namespace NUnitSelenium1Homework
         [Test]
         public void FilterCheck()
         {
-            IWebElement minInputValue = _driver.FindElement(By.XPath("//div[@class='slider-filter__inner']/input[1]"));
+            IWebElement minInputValue = _driver.FindElement(By.XPath("//input[@formcontrolname='min']"));
             minInputValue.Clear();
             minInputValue.SendKeys("10000");
             IWebElement okButton = _driver.FindElement(By.XPath("//div[@class='slider-filter__inner']/button"));
             okButton.Click();
-            IWebElement minimalInputValue = _driver.FindElement(By.XPath("//div[@class='slider-filter__inner']/input[1]"));
+            IWebElement minimalInputValue = _driver.FindElement(By.XPath("//input[@formcontrolname='min']"));
             Assert.AreEqual("10000", minimalInputValue.GetAttribute("value").ToString());
             var searchResults = _driver.FindElements(By.XPath("//*[@class='goods-tile__price-value']"));
+
             foreach (IWebElement priceEl in searchResults)
             {
                 string priceText = priceEl.Text.Replace(" ", "");
                 int convertedPriceEl = Int32.Parse(priceText);
                 Assert.GreaterOrEqual(convertedPriceEl, 10000);
             }
-            
-            
+        }
+
+        [TearDown]
+        public void CloseBrowser()
+        {
+            _driver.Close();
         }
     }
 }

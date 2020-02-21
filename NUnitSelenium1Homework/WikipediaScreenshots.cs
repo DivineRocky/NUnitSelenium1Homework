@@ -44,6 +44,12 @@ namespace NUnitSelenium1Homework
             }            
         }
 
+        [TearDown]
+        public void CloseBrowser()
+        {
+            _driver.Close();
+        }
+
         //[Test]
         //public void WikipediaPicturesTest()
         //{
