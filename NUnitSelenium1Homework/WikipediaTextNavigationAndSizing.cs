@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace NUnitSelenium1Homework
 {
-    public class Tests
+    public class WikipediaTextNavigationAndSizing
     {
         private IWebDriver _driver;
 
@@ -21,7 +21,7 @@ namespace NUnitSelenium1Homework
         }
 
         [Test]
-        public void WikipediaTestOne()
+        public void WikipediaTextCheck()
         {
             IWebElement webSiteTitle = _driver.FindElement(By.CssSelector(".central-textlogo__image.svg-Wikipedia_wordmark"));
             string webSiteTitleName = webSiteTitle.Text;
@@ -35,7 +35,7 @@ namespace NUnitSelenium1Homework
         }
 
         [Test]
-        public void WikipediaTestTwo()
+        public void WikipediaNavigation()
         {
             _driver.Navigate().GoToUrl("https://www.wikipedia.org/wiki/Main_Page");
             IWebElement helpLink = _driver.FindElement(By.LinkText("Help"));
