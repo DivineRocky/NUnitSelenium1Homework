@@ -16,7 +16,7 @@ namespace NUnitSelenium1Homework
         {
             _driver = new ChromeDriver();            
             _driver.Manage().Window.Maximize();
-            _driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 7);
+            _driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 5);
             _driver.Navigate().GoToUrl("https://www.wikipedia.org/");
         }
 
@@ -50,7 +50,7 @@ namespace NUnitSelenium1Homework
         {
             _driver.Manage().Window.Size = new Size(500, 600);
             _driver.Manage().Window.Position = new Point(200, 150);
-            _driver.Manage().Window.Maximize();
+            _driver.Manage().Window.Maximize();        
         }
 
         [TearDown]

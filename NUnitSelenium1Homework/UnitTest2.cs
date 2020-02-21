@@ -4,6 +4,9 @@ using OpenQA.Selenium.Chrome;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
+using WDSE.Decorators;
+using WDSE.ScreenshotMaker;
 
 namespace NUnitSelenium1Homework
 {
@@ -24,7 +27,11 @@ namespace NUnitSelenium1Homework
         [Test]
         public void WikipediaPicures()
         {
-            var images = _driver.FindElements(By.TagName("img"));
+            //var bytesArr = driver.TakeScreenshot(new VerticalCombineDecorator(new ScreenshotMaker()));
+            //var memoryStream = new MemoryStream(bytesArr);
+            //Bitmap pageScreenshot = new Bitmap(memoryStream);
+            //mainPageImage.SaveAsFile("C:/Users/Mariia_Khmaruk/Downloads/TestImages/screen.png");
+            //var images = _driver.FindElements(By.TagName("img"));
 
         }
 
