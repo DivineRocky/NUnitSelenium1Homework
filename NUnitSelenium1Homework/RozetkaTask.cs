@@ -37,7 +37,7 @@ namespace NUnitSelenium1Homework
             okButton.Click();
             IWebElement minimalInputValue = _driver.FindElement(By.XPath("//input[@formcontrolname='min']"));
             Assert.AreEqual("10000", minimalInputValue.GetAttribute("value").ToString());
-            var searchResults = _driver.FindElements(By.XPath("//*[@class='goods-tile__price-value']"));
+            IReadOnlyCollection <IWebElement> searchResults = _driver.FindElements(By.XPath("//*[@class='goods-tile__price-value']"));
 
             foreach (IWebElement priceEl in searchResults)
             {
