@@ -24,21 +24,29 @@ namespace NUnitSelenium1Homework
             searchString.SendKeys(keyword + Keys.Enter);
         }
 
-        private void SearchingAndTakingScreenshot(string keywordRandomCorp, int maxPageNumber)
+        private void SearchingAndTakingScreenshot(string keywordRandomCompany, int maxPageNumber, bool isNotFoundScreenshot)
         {
             bool isElementFound = false;
             for (int i = 0; i < maxPageNumber; i++)
             {
                 try
                 {
-                    IWebElement keywordRandomResult = _driver.FindElement(By.XPath(keywordRandomCorp));
+                    IWebElement keywordRandomResult = _driver.FindElement(By.XPath(keywordRandomCompany));
                     var vcs = new VerticalCombineDecorator(new ScreenshotMaker());
                     byte[] screen = _driver.TakeScreenshot(vcs);
                     File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\Found On Page {i + 1}.png", screen);
                     isElementFound = true;
+                    isNotFoundScreenshot = false;
                 }
                 catch (Exception e)
                 {
+                    if (isNotFoundScreenshot == true)
+                    {
+                        var vcs1 = new VerticalCombineDecorator(new ScreenshotMaker());
+                        byte[] screenshot = _driver.TakeScreenshot(vcs1);
+                        File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\Not Found On Page {i + 1}.png", screenshot);
+                        isElementFound = false;
+                    }
                 }
                 IWebElement nextButton = _driver.FindElement(By.XPath("//*[@id='pnnext']"));
                 nextButton.Click();
@@ -63,14 +71,21 @@ namespace NUnitSelenium1Homework
         public void GoogleTestOne()
         {
             SearchForKeyword("Шоколад");
-            SearchingAndTakingScreenshot("//a[@href='https://avksweets.com/catalog/shokolad/']", 5); 
+            SearchingAndTakingScreenshot("//a[@href='https://avksweets.com/catalog/shokolad/']", 5, false); 
         }
 
         [Test]
         public void GoogleTestTwo()
         {
             SearchForKeyword("Шоколад");
-            SearchingAndTakingScreenshot("//a[@href='https://rozetka.com.ua/shokolad/c4629452/']", 1);
+            SearchingAndTakingScreenshot("//a[@href='https://rozetka.com.ua/shokolad/c4629452/']", 1, false);
+        }
+
+        [Test]
+        public void GoogleTestThree()
+        {
+            SearchForKeyword("Шоколад");
+            SearchingAndTakingScreenshot("//a[@href='https://www.bmw.com/en/index.html']", 50, true); 
         }
 
         [TearDown]
