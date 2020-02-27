@@ -24,11 +24,11 @@ namespace NUnitSelenium1Homework
             searchString.SendKeys(keyword + Keys.Enter);
         }
 
-        private void GetScreen(string screenshotPass)
+        private void MakeScreenshot(string screenshotPath)
         {
             var vcs = new VerticalCombineDecorator(new ScreenshotMaker());
             byte[] screen = _driver.TakeScreenshot(vcs);
-            File.WriteAllBytes(screenshotPass, screen);
+            File.WriteAllBytes(screenshotPath, screen);
         }
 
         private void SearchAndTakeScreenshot(string keywordRandomCompany, int maxPageNumber, bool makeScreenshotIfNotFound = false)
@@ -39,15 +39,14 @@ namespace NUnitSelenium1Homework
                 try
                 {
                     IWebElement keywordRandomResult = _driver.FindElement(By.XPath(keywordRandomCompany));
-                    GetScreen(@$"C:\Users\Masha\Desktop\images scrshts\Found On Page {i + 1}.png");
+                    MakeScreenshot(@$"C:\Users\Masha\Desktop\images scrshts\Found On Page {i + 1}.png");
                     isElementFound = true;
                 }
                 catch (Exception e)
                 {
                     if (makeScreenshotIfNotFound)
                     {
-                        GetScreen(@$"C:\Users\Masha\Desktop\images scrshts\Not Found On Page {i + 1}.png");
-                        isElementFound = false;
+                        MakeScreenshot(@$"C:\Users\Masha\Desktop\images scrshts\Not Found On Page {i + 1}.png");
                     }
                 }
                 IWebElement nextButton = _driver.FindElement(By.XPath("//*[@id='pnnext']"));
