@@ -1,11 +1,13 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using WDSE;
 using WDSE.Decorators;
 using WDSE.Decorators.CuttingStrategies;
@@ -28,11 +30,17 @@ namespace NUnitSelenium1Homework
         }
 
         [Test]
-        public void GreeenChartCheck()
+        public void BlueChartCheck()
         {
-            IWebElement tooltipElements = _driver.FindElement(By.XPath("//*[contains(@aria-label,'Employees')]"));
-            string textedTooltips = tooltipElements.Text;
-            Console.WriteLine(textedTooltips);
+            IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-0"));
+
+            foreach (IWebElement bluePoint in tooltipElements)
+            {
+                Actions hover = new Actions(_driver);
+                hover.MoveToElement(bluePoint);
+                Thread.Sleep(10);
+                hover.Perform();
+            }            
         }
 
         [TearDown]
@@ -42,3 +50,4 @@ namespace NUnitSelenium1Homework
         }
     }
 }
+
