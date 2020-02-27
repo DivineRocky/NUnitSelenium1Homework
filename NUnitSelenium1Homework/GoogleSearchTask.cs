@@ -24,7 +24,14 @@ namespace NUnitSelenium1Homework
             searchString.SendKeys(keyword + Keys.Enter);
         }
 
-        private void SearchingAndTakingScreenshot(string keywordRandomCompany, int maxPageNumber, bool isNotFoundScreenshot)
+        private void GetScreen(string screenshotPass)
+        {
+            var vcs = new VerticalCombineDecorator(new ScreenshotMaker());
+            byte[] screen = _driver.TakeScreenshot(vcs);
+            File.WriteAllBytes(screenshotPass, screen);
+        }
+
+        private void SearchAndTakeScreenshot(string keywordRandomCompany, int maxPageNumber, bool makeScreenshotIfNotFound = false)
         {
             bool isElementFound = false;
             for (int i = 0; i < maxPageNumber; i++)
@@ -32,19 +39,14 @@ namespace NUnitSelenium1Homework
                 try
                 {
                     IWebElement keywordRandomResult = _driver.FindElement(By.XPath(keywordRandomCompany));
-                    var vcs = new VerticalCombineDecorator(new ScreenshotMaker());
-                    byte[] screen = _driver.TakeScreenshot(vcs);
-                    File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\Found On Page {i + 1}.png", screen);
+                    GetScreen(@$"C:\Users\Masha\Desktop\images scrshts\Found On Page {i + 1}.png");
                     isElementFound = true;
-                    isNotFoundScreenshot = false;
                 }
                 catch (Exception e)
                 {
-                    if (isNotFoundScreenshot == true)
+                    if (makeScreenshotIfNotFound)
                     {
-                        var vcs1 = new VerticalCombineDecorator(new ScreenshotMaker());
-                        byte[] screenshot = _driver.TakeScreenshot(vcs1);
-                        File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\Not Found On Page {i + 1}.png", screenshot);
+                        GetScreen(@$"C:\Users\Masha\Desktop\images scrshts\Not Found On Page {i + 1}.png");
                         isElementFound = false;
                     }
                 }
@@ -71,21 +73,21 @@ namespace NUnitSelenium1Homework
         public void GoogleTestOne()
         {
             SearchForKeyword("Шоколад");
-            SearchingAndTakingScreenshot("//a[@href='https://avksweets.com/catalog/shokolad/']", 5, false); 
+            SearchAndTakeScreenshot("//a[@href='https://avksweets.com/catalog/shokolad/']", 5); 
         }
 
         [Test]
         public void GoogleTestTwo()
         {
             SearchForKeyword("Шоколад");
-            SearchingAndTakingScreenshot("//a[@href='https://rozetka.com.ua/shokolad/c4629452/']", 1, false);
+            SearchAndTakeScreenshot("//a[@href='https://rozetka.com.ua/shokolad/c4629452/']", 1);
         }
 
         [Test]
         public void GoogleTestThree()
         {
             SearchForKeyword("Шоколад");
-            SearchingAndTakingScreenshot("//a[@href='https://www.bmw.com/en/index.html']", 50, true); 
+            SearchAndTakeScreenshot("//a[@href='https://www.bmw.com/en/index.html']", 50, true); 
         }
 
         [TearDown]
