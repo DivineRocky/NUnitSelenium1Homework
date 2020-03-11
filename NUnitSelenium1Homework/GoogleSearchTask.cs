@@ -20,7 +20,7 @@ namespace NUnitSelenium1Homework
 
         private void SearchForKeyword(string keyword)
         {
-            IWebElement searchString = _driver.FindElement(By.XPath("//*[@title='Поиск']"));
+            IWebElement searchString = _driver.FindElement(By.XPath("//input[@type='text']"));
             searchString.SendKeys(keyword + Keys.Enter);
         }
 

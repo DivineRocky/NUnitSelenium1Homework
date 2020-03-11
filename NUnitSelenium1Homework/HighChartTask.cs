@@ -18,6 +18,7 @@ namespace NUnitSelenium1Homework
     public class HighChartTask
     {
         private IWebDriver _driver;
+        
 
         [SetUp]
 
@@ -28,19 +29,35 @@ namespace NUnitSelenium1Homework
             _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("https://www.highcharts.com/demo/combo-timeline");
         }
+        //"style='visibility:hidden'" or "style='display:none'"
 
         [Test]
         public void BlueChartCheck()
         {
+            IReadOnlyCollection<IWebElement> tooltipsToHide = _driver.FindElements(By.CssSelector(".highcharts-label.highcharts-point"));
+            //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].style.visibility='hidden'", tooltipsToHide);
             IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-0"));
 
-            foreach (IWebElement bluePoint in tooltipElements)
+            foreach (IWebElement chartPoint in tooltipElements)
             {
                 Actions hover = new Actions(_driver);
-                hover.MoveToElement(bluePoint);
-                Thread.Sleep(10);
+                hover.MoveToElement(chartPoint);
                 hover.Perform();
+                string actualTooltipText = chartPoint.GetAttribute("aria-label").ToString();
+                //Assert.AreEqual("DB?", actualTooltipText);
             }            
+        }
+
+        [Test]
+        public void GreyChartCheck()
+        {
+            IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-1"));
+        }
+
+        [Test]
+        public void GreenChartCheck()
+        {
+            IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-2"));
         }
 
         [TearDown]
