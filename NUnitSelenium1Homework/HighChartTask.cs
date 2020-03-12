@@ -2,16 +2,8 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Support.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Threading;
-using WDSE;
-using WDSE.Decorators;
-using WDSE.Decorators.CuttingStrategies;
-using WDSE.ScreenshotMaker;
 
 namespace NUnitSelenium1Homework
 {
@@ -29,13 +21,15 @@ namespace NUnitSelenium1Homework
             _driver.Manage().Window.Maximize();
             _driver.Navigate().GoToUrl("https://www.highcharts.com/demo/combo-timeline");
         }
-        //"style='visibility:hidden'" or "style='display:none'"
 
         [Test]
         public void BlueChartCheck()
         {
             IReadOnlyCollection<IWebElement> tooltipsToHide = _driver.FindElements(By.CssSelector(".highcharts-label.highcharts-point"));
-            //((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].style.visibility='hidden'", tooltipsToHide);
+            foreach (IWebElement tooltipToHide in tooltipsToHide)
+            {
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].style.visibility='hidden'", tooltipToHide);
+            }
             IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-0"));
 
             foreach (IWebElement chartPoint in tooltipElements)
@@ -45,7 +39,7 @@ namespace NUnitSelenium1Homework
                 hover.Perform();
                 string actualTooltipText = chartPoint.GetAttribute("aria-label").ToString();
                 //Assert.AreEqual("DB?", actualTooltipText);
-            }            
+            }
         }
 
         [Test]
