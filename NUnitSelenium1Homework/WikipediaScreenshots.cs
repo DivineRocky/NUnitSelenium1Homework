@@ -30,7 +30,7 @@ namespace NUnitSelenium1Homework
             var images = _driver.FindElements(By.TagName("img"));
             for (int i = 1; i <= images.Count; i++)
             {
-                if (images[i-1].Size.Width<100)
+                if (images[i - 1].Size.Width < 100)
                 {
                     continue;
                 }
@@ -38,7 +38,7 @@ namespace NUnitSelenium1Homework
                 var ele = By.XPath($"(//img)[{i}]");
                 var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
                 File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\scr{i}.png", arr);
-            }            
+            }
         }
 
         [TearDown]
@@ -46,17 +46,5 @@ namespace NUnitSelenium1Homework
         {
             _driver.Close();
         }
-
-        //[Test]
-        //public void WikipediaPicturesTest()
-        //{
-        //    var images = _driver.FindElements(By.XPath("//*[@class='image']"));
-        //    for (int i = 1; i <= images.Count; i++)
-        //    {
-        //        var ele = By.XPath("//*[@class='image']");
-        //        var arr = _driver.TakeScreenshot(new OnlyElementDecorator(new ScreenshotMaker()).SetElement(ele));
-        //        File.WriteAllBytes(@$"C:\Users\Masha\Desktop\images scrshts\scr{i}.png", arr);
-        //    }
-        //}
     }
 }

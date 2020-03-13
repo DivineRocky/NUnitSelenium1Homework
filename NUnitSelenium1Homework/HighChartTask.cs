@@ -30,15 +30,20 @@ namespace NUnitSelenium1Homework
             {
                 ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].style.visibility='hidden'", tooltipToHide);
             }
+            //IWebElement chartMenu = _driver.FindElement(By.XPath("//button[@aria-label='View chart menu']"));
+            //chartMenu.Click();
+            //IWebElement openDatatable = _driver.FindElement(By.CssSelector(".highcharts-menu-item:last-child"));
+            //openDatatable.Click();
+            IReadOnlyCollection<IWebElement> highchartsDatatable = _driver.FindElements(By.CssSelector(".highcharts-data-table"));
             IReadOnlyCollection<IWebElement> tooltipElements = _driver.FindElements(By.CssSelector(".highcharts-point.highcharts-color-0"));
-
             foreach (IWebElement chartPoint in tooltipElements)
             {
                 Actions hover = new Actions(_driver);
                 hover.MoveToElement(chartPoint);
                 hover.Perform();
                 string actualTooltipText = chartPoint.GetAttribute("aria-label").ToString();
-                //Assert.AreEqual("DB?", actualTooltipText);
+                //string expectedTooltipText = highchartsDatatable.ToString();
+                //Assert.AreEqual(expectedTooltipText, actualTooltipText);
             }
         }
 
